@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moss.server.dao.SysMenuDao" >
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+      insert into tb_sys_menu (pid, icon, index, title, flag, create_time, remark)
+      values (#{pid}, #{icon}, #{index}, #{title}, '0', now(), '')
+    </insert>
+
+    <delete id="del">
+        delete from tb_sys_menu where id = #{id}
+    </delete>
+
+    <update id="update">
+        update tb_sys_menu set
+          pid = #{pid},
+          icon = #{icon},
+          index = #{index},
+          title = #{title},
+          remark = #{remark}
+        where id = #{id}
+    </update>
+
+    <update id="updateFlag">
+        update tb_sys_menu set
+          flag = #{flag}
+        where id = #{id}
+    </update>
+
+    <select id="list" resultType="com.moss.server.model.SysMenu">
+        select id, pid, icon, index, title, flag, create_time, remark
+        from tb_sys_menu t
+        order by id desc
+    </select>
+
+    <select id="listByUser" resultType="com.moss.server.model.SysMenu">
+        select id, pid, icon, index, title, flag, create_time, remark
+        from tb_sys_menu t
+        where t.flag = '0'
+        order by id desc
+    </select>
+
+
+</mapper>
