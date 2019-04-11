@@ -53,10 +53,7 @@
                             let data = respose.data
                             console.log(data)
                             if("ok" == data.code){
-                                //登录成功
-                                localStorage.setItem('token',data.data.token);
-                                //字符串保存user
-                                localStorage.setItem('user',JSON.stringify(data.data.user));
+                                this.$util.saveUserInfo(data.data)
                                 this.$router.push('/');
                             }else{
                                 this.msg = data.msg

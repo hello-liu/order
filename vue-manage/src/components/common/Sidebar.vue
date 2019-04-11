@@ -49,17 +49,32 @@
                         title: '系统管理',
                         subs: [
                             {
+                                icon: "el-icon-lx-home",
+                                index: 'deptMng',
+                                title: '机构管理'
+                            },
+                            {
                                 icon: "el-icon-lx-people",
                                 index: 'userMng',
                                 title: '用户管理'
                             },
                             {
-                                icon: "el-icon-lx-home",
-                                index: 'merchantMng',
-                                title: '商户管理'
+                                icon: "el-icon-lx-sort",
+                                index: 'menuMng',
+                                title: '菜单管理'
                             },
                             {
-                                icon: "el-icon-lx-home",
+                                icon: "el-icon-lx-profile",
+                                index: 'permisMng',
+                                title: '权限管理'
+                            },
+                            {
+                                icon: "el-icon-lx-profile",
+                                index: 'roleMng',
+                                title: '角色管理'
+                            },
+                            {
+                                icon: "el-icon-lx-calendar",
                                 index: 'logMng',
                                 title: '系统日志'
                             }

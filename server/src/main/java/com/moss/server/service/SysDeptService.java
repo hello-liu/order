@@ -4,8 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.moss.common.model.BackModel;
 import com.moss.common.model.CheckParamsModel;
-import com.moss.server.dao.SysMenuDao;
-import com.moss.server.model.SysMenu;
+import com.moss.common.model.PageModel;
+import com.moss.server.dao.SysDeptDao;
+import com.moss.server.model.SysDept;
 import com.moss.server.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SysMenuService {
+public class SysDeptService {
 
 	@Autowired
-	private SysMenuDao sysMenuDao;
+	private SysDeptDao sysDeptDao;
 
 	@Transactional
 	public BackModel add(JSONObject json ) throws Exception{
@@ -26,18 +27,17 @@ public class SysMenuService {
 
 		//验证请求参数
 		List<CheckParamsModel> cps = new ArrayList<CheckParamsModel>();
-		cps.add(new CheckParamsModel("icon", 0,50,"" ) );
-		cps.add(new CheckParamsModel("index", 1,60,"" ) );
-		cps.add(new CheckParamsModel("title", 1,20,"" ) );
-		cps.add(new CheckParamsModel("flag", 1,8,"" ) );
+		cps.add(new CheckParamsModel("code", 0,20,"[0-9]+" ) );
+		cps.add(new CheckParamsModel("name", 0,50,"" ) );
+		cps.add(new CheckParamsModel("flag", 0,8,"" ) );
 
 		BackModel backModel = Util.checkParams(json, cps);
 		if(backModel != null){
 			return backModel;
 		}
 
-		SysMenu menu = JSONObject.toJavaObject(json, SysMenu.class);
-		int result = sysMenuDao.add(menu);
+		SysDept dept = JSONObject.toJavaObject(json, SysDept.class);
+		int result = sysDeptDao.add(dept);
 		return new BackModel("ok","添加成功！");
 
 	}
@@ -46,7 +46,7 @@ public class SysMenuService {
 	public BackModel del(JSONObject json ) {
 
 		Integer id = json.getInteger("id");
-		int result = sysMenuDao.del(id);
+		int result = sysDeptDao.del(id);
 		return new BackModel("ok","删除成功！");
 
 	}
@@ -56,18 +56,17 @@ public class SysMenuService {
 
 		//验证请求参数
 		List<CheckParamsModel> cps = new ArrayList<CheckParamsModel>();
-		cps.add(new CheckParamsModel("icon", 0,50,"" ) );
-		cps.add(new CheckParamsModel("index", 1,60,"" ) );
-		cps.add(new CheckParamsModel("title", 1,20,"" ) );
-		cps.add(new CheckParamsModel("flag", 1,8,"" ) );
+		cps.add(new CheckParamsModel("code", 0,20,"[0-9]+" ) );
+		cps.add(new CheckParamsModel("name", 0,50,"" ) );
+		cps.add(new CheckParamsModel("name", 0,8,"" ) );
 
 		BackModel backModel = Util.checkParams(json, cps);
 		if(backModel != null){
 			return backModel;
 		}
 
-		SysMenu member = JSONObject.toJavaObject(json, SysMenu.class);
-		int result = sysMenuDao.update(member);
+		SysDept dept = JSONObject.toJavaObject(json, SysDept.class);
+		int result = sysDeptDao.update(dept);
 		return new BackModel("ok","修改成功！");
 
 	}
@@ -83,8 +82,7 @@ public class SysMenuService {
 			return backModel;
 		}
 
-		List<SysMenu> ms = sysMenuDao.list();
-		PageInfo page= new PageInfo<>(ms);
+		List<SysDept> ms = sysDeptDao.list();
 
 		return new BackModel("ok","查询成功！", ms );
 

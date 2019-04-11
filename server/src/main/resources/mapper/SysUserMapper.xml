@@ -3,9 +3,9 @@
 <mapper namespace="com.moss.server.dao.SysUserDao" >
 
     <select id="login"  resultType="com.moss.server.model.SysUser">
-      select t.id, t.dept_id, t.nickname, t.sex, t.age, t.pwd, t.account, t.phone, t.email, t.idnumber, t.address, t.money, t.integral, t.head, t.flag, t.create_time, t.remark, tm.name deptName
+      select t.id, t.dept_id, t.nickname, t.sex, t.age, t.pwd, t.account, t.phone, t.email, t.idnumber, t.address, t.money, t.integral, t.head, t.flag, t.create_time, t.remark, td.name deptName
       from tb_sys_user t
-      left join tb_sys_dept tm on t.dept_id = tm.id
+      left join tb_sys_dept td on t.dept_id = td.id
       where account = #{account}
     </select>
 
@@ -27,6 +27,7 @@
     <update id="update">
         update tb_sys_user set
           nickname = #{nickname},
+          dept_id = #{deptId},
           sex = #{sex},
           age = #{age},
           phone = #{phone},
@@ -46,9 +47,9 @@
 
     <select id="list" resultType="com.moss.server.model.SysUser">
         select t.id, t.dept_id, t.nickname, t.sex, t.age, t.pwd, t.account, t.phone, t.email,
-        t.idnumber, t.address, t.money, t.integral, t.head, t.flag, t.create_time, t.remark, tm.name deptName
+        t.idnumber, t.address, t.money, t.integral, t.head, t.flag, t.create_time, t.remark, td.name deptName
         from tb_sys_user t
-        left join tb_sys_dept tm on t.dept_id = tm.id
+        left join tb_sys_dept td on t.dept_id = td.id
         <where>
             <if test="flag != null">
                 and t.flag = #{flag}

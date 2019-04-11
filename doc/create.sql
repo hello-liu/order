@@ -82,7 +82,7 @@ create table tb_sys_dept(
   id		serial,
   pid		int,
   code		varchar (8),
-  name		varchar (8),
+  name		varchar (50),
   flag		varchar (8),
   create_time		timestamp,
   remark		varchar (255)

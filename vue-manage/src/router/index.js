@@ -25,10 +25,19 @@ export default new Router({
                     meta: { title: '用户管理' }
                 },
                 {
-                    path: '/merchantMng',
-                    component: resolve => require(['../components/page/MerchantMng.vue'], resolve),
-                    meta: { title: '商户管理' }
+                    path: '/deptMng',
+                    component: resolve => require(['../components/page/DeptMng.vue'], resolve),
+                    meta: { title: '机构管理' }
                 },
+                {
+                    path: '/menuMng',
+                    component: resolve => require(['../components/page/MenuMng.vue'], resolve),
+                    meta: { title: '菜单管理' }
+                },
+
+
+
+// ---------------------
                 {
                     path: '/memberMng',
                         component: resolve => require(['../components/page/MemberMng.vue'], resolve),

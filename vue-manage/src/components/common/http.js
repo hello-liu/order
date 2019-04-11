@@ -71,8 +71,9 @@ var http = {
       background: 'rgba(0, 0, 0, 0.7)'
     });
 
-    //请求头添加token
-    let token = localStorage.getItem('token');
+    //请求添加token
+    let token = vue.$util.getInfo("userToken");
+
     params.method = method;
     params.token = token;
     //如果有密码，则必须加密传输
@@ -86,6 +87,7 @@ var http = {
         console.log(response.data)
         if(response.data.msg == "未登录！"){
             //跳到登录
+          loading.close();
           window.location.href='/#/login';
           return;
         }

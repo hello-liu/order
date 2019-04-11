@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moss.server.dao.SysDeptDao" >
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+      insert into tb_sys_dept (pid, code, name, flag, create_time, remark)
+      values (#{pid}, #{code}, #{name}, #{flag}, now(), '')
+    </insert>
+
+    <delete id="del">
+        delete from tb_sys_dept where id = #{id}
+    </delete>
+
+    <update id="update">
+        update tb_sys_dept set
+          pid = #{pid},
+          code = #{code},
+          name = #{name},
+          flag = #{flag},
+          remark = #{remark}
+        where id = #{id}
+    </update>
+
+    <update id="updateFlag">
+        update tb_sys_dept set
+          flag = #{flag}
+        where id = #{id}
+    </update>
+
+    <select id="list" resultType="com.moss.server.model.SysDept">
+        select t.id, t.pid, t.code, t.name, t.flag, t.create_time, t.remark, t2.name pname
+        from tb_sys_dept t
+        left join tb_sys_dept t2 on t.pid = t2.id
+        order by id desc
+    </select>
+
+    <select id="listByUser" resultType="com.moss.server.model.SysDept">
+        select id, pid, code, name, flag, create_time, remark
+        from tb_sys_dept t
+        where t.flag = '0'
+        order by id desc
+    </select>
+
+
+</mapper>

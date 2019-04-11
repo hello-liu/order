@@ -7,17 +7,8 @@ import java.util.Date;
 public class SysUser {
 
 	private Integer id;
-
-	public Integer getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(Integer deptId) {
-		this.deptId = deptId;
-	}
-
 	private Integer deptId;
-	private String merchantName;
+	private String deptName;
 	private String nickname ;
 	private String sex ;
 	private Integer age ;
@@ -35,6 +26,13 @@ public class SysUser {
 	private Date createTime ;
 	private String remark ;
 
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
 
 	public Integer getId() {
 		return id;
@@ -164,11 +162,11 @@ public class SysUser {
 		this.remark = remark;
 	}
 
-	public String getMerchantName() {
-		return merchantName;
+	public String getDeptName() {
+		return deptName;
 	}
 
-	public void setMerchantName(String merchantName) {
-		this.merchantName = merchantName;
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 }

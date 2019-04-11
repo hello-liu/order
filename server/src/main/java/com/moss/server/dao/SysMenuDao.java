@@ -10,7 +10,6 @@ public interface SysMenuDao {
 	int add(SysMenu menu);
 	int del(Integer id);
 	int update(SysMenu menu);
-	int updateFlag(SysMenu menu);
 	List<SysMenu> list();
 	List<SysMenu> listByUser(HashMap map);
 

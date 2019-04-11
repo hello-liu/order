@@ -11,13 +11,13 @@
                 <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
             </div>
-            <el-table :data="data" border stripe class="table" ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table :data="data" border stripe class="table" ref="multipleTable" >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="nickname" label="姓名" >
                 </el-table-column>
                 <el-table-column prop="account" label="账号" >
                 </el-table-column>
-                <el-table-column prop="merchantName" label="商户" >
+                <el-table-column prop="deptName" label="机构" >
                 </el-table-column>
                 <el-table-column prop="phone" label="手机" >
                 </el-table-column>
@@ -48,6 +48,16 @@
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="id" :hidden="true">
                     <el-input v-model="form.id" ></el-input>
+                </el-form-item>
+                <el-form-item label="机构">
+                    <el-cascader :options="deptData"
+                                 v-model="form.deptId"
+                                 :props="defaultProps"
+                                 style="width: 100%"
+                                 :show-all-levels="true"
+                                 change-on-select>
+
+                    </el-cascader >
                 </el-form-item>
                 <el-form-item label="*姓名" 	>
                     <el-input v-model="form.nickname" ></el-input>
@@ -95,15 +105,20 @@
         data() {
             return {
                 tableData: [],
+                defaultProps: {
+                    children: 'children',
+                    label: 'name',
+                    value: 'id',
+                },
+                deptData: [],
                 cur_page: 1,
-                pageSize:8,
+                pageSize:10,
                 total:0,
-                multipleSelection: [],
                 select_word: '',
                 editVisible: false,
                 isEdit:false,
                 form: {
-                    merchantId: '1',
+                    deptId: [],
                     nickname: '',
                     sex: '',
                     age: '',
@@ -115,7 +130,7 @@
                     address: ''
                 },
                 formEmpty: {
-                    merchantId: '1',
+                    deptId: [],
                     nickname: '',
                     sex: '',
                     age: '',
@@ -130,6 +145,7 @@
         },
         created() {
             this.getData();
+            this.getDeptData();
         },
         computed: {
             data() {
@@ -142,7 +158,7 @@
                 this.cur_page = val;
                 this.getData();
             },
-            // 获取 easy-mock 的模拟数据
+            // 获取数据
             getData() {
                 let params = {pageNo:this.cur_page,pageNum:this.pageSize};
                 if(this.select_word){
@@ -173,11 +189,11 @@
                 this.isEdit = true;
                 //深拷贝
                 let temp = JSON.parse(JSON.stringify(row));
+                console.log(this.deptData)
+                temp.deptId = this.$util.getParent(temp.deptId,this.deptData);
+                console.log(temp.deptId)
                 this.form = temp;
                 this.editVisible = true;
-            },
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
             },
             // 保存编辑
             saveEdit() {
@@ -185,7 +201,11 @@
                 if(this.form.id){
                     method = 'sysUser.update'
                 }
-                this.$http.post(method, this.form, this).then(respose => {
+                let params = this.$util.copy(this.form);
+                if(params.deptId instanceof Array){
+                    params.deptId = params.deptId[params.deptId.length-1]
+                }
+                this.$http.post(method, params, this).then(respose => {
                     let data = respose.data
                     if("ok" == data.code){
                         //添加成功
@@ -225,6 +245,22 @@
                     }
                 })
             },
+            getDeptData(){
+
+                this.$http.post('sysDept.list', {}, this).then(respose => {
+                    let data = respose.data
+                    if("ok" == data.code){
+                        //成功
+                        //构建机构树
+                        let tree = this.$util.getTree(data.data)
+                        console.log(tree)
+                        this.deptData = tree;
+                    }else{
+                        //失败，进行提示
+                        // this.$alert(data.msg+data.data, "错误！", {confirmButtonText: '确定',});
+                    }
+                })
+            }
 
         }
     }

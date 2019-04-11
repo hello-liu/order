@@ -2,6 +2,7 @@ package com.moss.server.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.moss.common.model.BackModel;
+import com.moss.server.service.SysDeptService;
 import com.moss.server.service.SysLogService;
 import com.moss.server.service.SysMenuService;
 import com.moss.server.service.SysUserService;
@@ -16,6 +17,9 @@ public class ServiceMaper {
 
 	@Autowired
 	SysMenuService sysMenuService;
+
+	@Autowired
+	SysDeptService sysDeptService;
 
 	@Autowired
 	SysLogService sysLogService;
@@ -38,7 +42,12 @@ public class ServiceMaper {
 			case "sysMenu.del":return sysMenuService.del(json);
 			case "sysMenu.update":return sysMenuService.update(json);
 			case "sysMenu.list":return sysMenuService.list(json);
-			case "sysMenu.updateFlag":return sysMenuService.updateFlag(json);
+
+			//机构管理
+			case "sysDept.add":return sysDeptService.add(json);
+			case "sysDept.del":return sysDeptService.del(json);
+			case "sysDept.update":return sysDeptService.update(json);
+			case "sysDept.list":return sysDeptService.list(json);
 
 			//log
 			case "log.list":return sysLogService.list(json);

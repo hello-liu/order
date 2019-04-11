@@ -7,6 +7,7 @@ public class SysDept {
 	private Integer id;
 	private Integer pid;
 	private String name ;
+	private String pname ;
 	private String code ;
 	private String flag ;
 	private Date createTime ;
@@ -67,5 +68,13 @@ public class SysDept {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 }

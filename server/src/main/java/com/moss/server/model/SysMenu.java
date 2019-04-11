@@ -7,6 +7,7 @@ public class SysMenu {
 	private Integer id;
 	private Integer pid;
 	private String icon ;
+	private String ptitle ;
 	private String index ;
 	private String title ;
 	private String flag ;
@@ -77,4 +78,11 @@ public class SysMenu {
 		this.remark = remark;
 	}
 
+	public String getPtitle() {
+		return ptitle;
+	}
+
+	public void setPtitle(String ptitle) {
+		this.ptitle = ptitle;
+	}
 }
