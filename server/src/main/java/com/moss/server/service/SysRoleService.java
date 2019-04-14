@@ -1,10 +1,13 @@
 package com.moss.server.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.moss.common.model.BackModel;
 import com.moss.common.model.CheckParamsModel;
-import com.moss.server.dao.SysDeptDao;
-import com.moss.server.model.SysDept;
+import com.moss.common.model.PageModel;
+import com.moss.server.dao.SysRoleDao;
+import com.moss.server.model.SysRole;
 import com.moss.server.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SysDeptService {
+public class SysRoleService {
 
 	@Autowired
-	private SysDeptDao sysDeptDao;
+	private SysRoleDao sysRoleDao;
 
 	@Transactional
 	public BackModel add(JSONObject json ) throws Exception{
@@ -25,17 +28,16 @@ public class SysDeptService {
 
 		//验证请求参数
 		List<CheckParamsModel> cps = new ArrayList<CheckParamsModel>();
-		cps.add(new CheckParamsModel("code", 0,20,"[0-9]+" ) );
 		cps.add(new CheckParamsModel("name", 0,50,"" ) );
-		cps.add(new CheckParamsModel("flag", 0,8,"" ) );
+		cps.add(new CheckParamsModel("flag", 1,60,"" ) );
 
 		BackModel backModel = Util.checkParams(json, cps);
 		if(backModel != null){
 			return backModel;
 		}
 
-		SysDept dept = JSONObject.toJavaObject(json, SysDept.class);
-		int result = sysDeptDao.add(dept);
+		SysRole role = JSONObject.toJavaObject(json, SysRole.class);
+		int result = sysRoleDao.add(role);
 		return new BackModel("ok","添加成功！");
 
 	}
@@ -44,7 +46,7 @@ public class SysDeptService {
 	public BackModel del(JSONObject json ) {
 
 		Integer id = json.getInteger("id");
-		int result = sysDeptDao.del(id);
+		int result = sysRoleDao.del(id);
 		return new BackModel("ok","删除成功！");
 
 	}
@@ -54,17 +56,17 @@ public class SysDeptService {
 
 		//验证请求参数
 		List<CheckParamsModel> cps = new ArrayList<CheckParamsModel>();
-		cps.add(new CheckParamsModel("code", 0,20,"[0-9]+" ) );
-		cps.add(new CheckParamsModel("name", 0,50,"" ) );
-		cps.add(new CheckParamsModel("name", 0,8,"" ) );
+		cps.add(new CheckParamsModel("id", 0,50,"" ) );
+		cps.add(new CheckParamsModel("name", 1,60,"" ) );
+		cps.add(new CheckParamsModel("flag", 1,8,"" ) );
 
 		BackModel backModel = Util.checkParams(json, cps);
 		if(backModel != null){
 			return backModel;
 		}
 
-		SysDept dept = JSONObject.toJavaObject(json, SysDept.class);
-		int result = sysDeptDao.update(dept);
+		SysRole role = JSONObject.toJavaObject(json, SysRole.class);
+		int result = sysRoleDao.update(role);
 		return new BackModel("ok","修改成功！");
 
 	}
@@ -74,15 +76,25 @@ public class SysDeptService {
 
 		//验证请求参数
 		List<CheckParamsModel> cps = new ArrayList<CheckParamsModel>();
+		cps.add(new CheckParamsModel("pageNo", 0,99,"[0-9]+" ) );
+		cps.add(new CheckParamsModel("pageNum", 0,99,"[0-9]+" ) );
 
 		BackModel backModel = Util.checkParams(json, cps);
 		if(backModel != null){
 			return backModel;
 		}
 
-		List<SysDept> ms = sysDeptDao.list();
+		//获取请求参数
+		Integer pageNo = json.getInteger("pageNo");
+		Integer pageNum = json.getInteger("pageNum");
+		SysRole role = JSONObject.toJavaObject(json, SysRole.class);
 
-		return new BackModel("ok","查询成功！", ms );
+		//分页查询
+		PageHelper.startPage(pageNo, pageNum);
+		List<SysRole> ms = sysRoleDao.list(role);
+		PageInfo page= new PageInfo<>(ms);
+
+		return new BackModel("ok","查询成功！", new PageModel(page.getTotal(),ms) );
 
 	}
 

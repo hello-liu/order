@@ -51,7 +51,7 @@
             return {
                 tableData: [],
                 cur_page: 1,
-                pageSize:8,
+                pageSize:10,
                 total:0,
                 select_word: '',
             }

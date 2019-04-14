@@ -26,7 +26,7 @@
     export default {
         data: function(){
             return {
-                msg:'用户名和密码随便填。',
+                msg:'。',
                 ruleForm: {
                     username: 'admin',
                     password: '123456'
@@ -51,7 +51,6 @@
                         this.$http.post('sysUser.login', params, this).then(respose => {
 
                             let data = respose.data
-                            console.log(data)
                             if("ok" == data.code){
                                 this.$util.saveUserInfo(data.data)
                                 this.$router.push('/');
@@ -112,6 +111,6 @@
     .login-tips{
         font-size:12px;
         line-height:30px;
-        color:#fff;
+        color:red;
     }
 </style>

@@ -10,7 +10,7 @@
     </select>
 
     <select id="getUserPermis"  resultType="java.lang.String">
-      select value from tb_sys_func
+      select index from tb_sys_menu where type = '1'
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">

@@ -69,7 +69,7 @@
                                 title: '权限管理'
                             },
                             {
-                                icon: "el-icon-lx-profile",
+                                icon: "el-icon-lx-group",
                                 index: 'roleMng',
                                 title: '角色管理'
                             },

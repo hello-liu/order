@@ -44,7 +44,7 @@
             return {
                 tableData: [],
                 cur_page: 1,
-                pageSize:8,
+                pageSize:10,
                 total:0,
                 select_word: '',
             }
@@ -69,7 +69,7 @@
                 if(this.select_word){
                     params.account = this.select_word;
                 }
-                this.$http.post('log.list', params, this).then(respose => {
+                this.$http.post('sysLog.list', params, this).then(respose => {
                     let data = respose.data
                     if("ok" == data.code){
                         //成功

@@ -10,6 +10,7 @@
                             node-key="id"
                             highlight-current
                             :props="defaultProps"
+                            :expand-on-click-node="false"
                             @node-click="onTree">
                     </el-tree>
                 </el-card>

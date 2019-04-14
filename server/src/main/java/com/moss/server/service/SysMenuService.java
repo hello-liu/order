@@ -56,7 +56,7 @@ public class SysMenuService {
 
 		//验证请求参数
 		List<CheckParamsModel> cps = new ArrayList<CheckParamsModel>();
-		cps.add(new CheckParamsModel("icon", 0,50,"" ) );
+		cps.add(new CheckParamsModel("type", 0,50,"" ) );
 		cps.add(new CheckParamsModel("index", 1,60,"" ) );
 		cps.add(new CheckParamsModel("title", 1,20,"" ) );
 		cps.add(new CheckParamsModel("flag", 1,8,"" ) );

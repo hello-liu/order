@@ -10,6 +10,8 @@
                             node-key="id"
                             highlight-current
                             :props="defaultProps"
+                            :expand-on-click-node="false"
+                            :render-content="renderContent"
                             @node-click="onTree">
                     </el-tree>
                 </el-card>
@@ -32,8 +34,14 @@
                         <el-form-item label="*名称">
                             <el-input v-model="form.title" ></el-input>
                         </el-form-item>
-                        <el-form-item label="*图标">
+                        <el-form-item label="图标">
                             <el-input v-model="form.icon" ></el-input>
+                        </el-form-item>
+                        <el-form-item label="*类型">
+                            <el-select v-model="form.type" placeholder="请选择">
+                                <el-option label="菜单" value="0"></el-option>
+                                <el-option label="功能" value="1"></el-option>
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="*状态">
                             <el-select v-model="form.flag" placeholder="请选择">
@@ -68,6 +76,7 @@
                   index:'',
                   title:'',
                   flag:'0',
+                  type:'0',
                 },
                 formEmpty:{
                     id:'',
@@ -77,6 +86,7 @@
                     index:'',
                     title:'',
                     flag:'0',
+                    type:'0',
                 },
                 defaultProps: {
                     children: 'children',
@@ -93,6 +103,12 @@
             this.getData();
         },
         methods: {
+            renderContent(h, { node, data, store }) {
+                return (
+                    <span class="custom-tree-node">
+                    <span>{node.label}({data.type=='0'?'菜单':'功能'})</span>
+                    </span>);
+            },
             getData(){
                 this.$http.post('sysMenu.list', {}, this).then(respose => {
                     let data = respose.data
@@ -100,7 +116,6 @@
                         //成功
                         //构建机构树
                         let tree = this.$util.getTree(data.data)
-                        console.log(data);
                         this.treeDate = tree;
                     }else{
                         //失败，进行提示

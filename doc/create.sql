@@ -16,18 +16,6 @@ create table tb_sys_role(
   remark		varchar (255)
 );
 
--- 方法表
-drop table if exists tb_sys_func;
-create table tb_sys_func(
-  id		serial,
-  pid int,
-  menu_id int,
-  name		varchar(50),
-  value		varchar(50),
-  flag		varchar (8),
-  create_time		timestamp,
-  remark		varchar (255)
-);
 
 -- 菜单
 drop table if exists tb_sys_menu;
@@ -38,6 +26,7 @@ create table tb_sys_menu(
   index		varchar(50),
   title		varchar(50),
   flag		varchar (8),
+  type		varchar (8),-- 0-菜单 1-方法
   create_time		timestamp,
   remark		varchar (255)
 );
@@ -71,7 +60,7 @@ create table tb_sys_permis(
   owner_id		int , -- 用户、角色
   permis_id		int , -- 角色、权限
   flag		varchar (8), --[1] 1-用户/角色 2-用户/权限 3-角色/权限 4-机构/权限
-  type		varchar (8), --[1] 1-菜单 2-功能
+  type		varchar (8),
   create_time		timestamp,
   remark		varchar (255)
 );

@@ -2,10 +2,7 @@ package com.moss.server.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.moss.common.model.BackModel;
-import com.moss.server.service.SysDeptService;
-import com.moss.server.service.SysLogService;
-import com.moss.server.service.SysMenuService;
-import com.moss.server.service.SysUserService;
+import com.moss.server.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +20,12 @@ public class ServiceMaper {
 
 	@Autowired
 	SysLogService sysLogService;
+
+	@Autowired
+	SysRoleService sysRoleService;
+
+	@Autowired
+	SysPermisService sysPermisService;
 
 	public BackModel maper(JSONObject json ) throws Exception {
 		String method = json.getString("method");
@@ -50,7 +53,18 @@ public class ServiceMaper {
 			case "sysDept.list":return sysDeptService.list(json);
 
 			//log
-			case "log.list":return sysLogService.list(json);
+			case "sysLog.list":return sysLogService.list(json);
+
+			//角色管理
+			case "sysRole.add":return sysRoleService.add(json);
+			case "sysRole.del":return sysRoleService.del(json);
+			case "sysRole.update":return sysRoleService.update(json);
+			case "sysRole.list":return sysRoleService.list(json);
+
+
+			case "sysPermis.getMenuAndFunc":return sysPermisService.getMenuAndFunc(json);
+			case "sysPermis.save":return sysPermisService.save(json);
+			case "sysPermis.getByOwner":return sysPermisService.getByOwner(json);
 
 
 			default: return new BackModel("error","接口不存在");

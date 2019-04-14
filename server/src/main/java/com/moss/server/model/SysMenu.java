@@ -10,6 +10,7 @@ public class SysMenu {
 	private String ptitle ;
 	private String index ;
 	private String title ;
+	private String type ; //0-菜单 1-方法
 	private String flag ;
 	private Date createTime ;
 	private String remark ;
@@ -84,5 +85,13 @@ public class SysMenu {
 
 	public void setPtitle(String ptitle) {
 		this.ptitle = ptitle;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

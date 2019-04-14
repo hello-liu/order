@@ -4,8 +4,8 @@
 
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
-      insert into tb_sys_menu (pid, icon, index, title, flag, create_time, remark)
-      values (#{pid}, #{icon}, #{index}, #{title}, #{flag}, now(), '')
+      insert into tb_sys_menu (pid, icon, index, title, flag, create_time, remark, type)
+      values (#{pid}, #{icon}, #{index}, #{title}, #{flag}, now(), '', #{type})
     </insert>
 
     <delete id="del">
@@ -19,19 +19,20 @@
           index = #{index},
           title = #{title},
           flag = #{flag},
+          type = #{type},
           remark = #{remark}
         where id = #{id}
     </update>
 
     <select id="list" resultType="com.moss.server.model.SysMenu">
-        select t.id, t.pid, t.icon, t.index, t.title, t.flag, t.create_time, t.remark, tm.title ptitle
+        select t.id, t.pid, t.icon, t.index, t.title, t.flag, t.create_time, t.remark, t.type, tm.title ptitle
         from tb_sys_menu t
         left join tb_sys_menu tm on t.pid = tm.id
         order by id desc
     </select>
 
     <select id="listByUser" resultType="com.moss.server.model.SysMenu">
-        select id, pid, icon, index, title, flag, create_time, remark
+        select id, pid, icon, index, title, flag, type, create_time, remark
         from tb_sys_menu t
         where t.flag = '0'
         order by id desc
