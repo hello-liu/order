@@ -32,9 +32,25 @@
     </select>
 
     <select id="listByUser" resultType="com.moss.server.model.SysMenu">
-        select id, pid, icon, index, title, flag, type, create_time, remark
+        select t.id, t.pid, t.icon, t.index, t.title, t.flag, t.type, t.create_time, t.remark
         from tb_sys_menu t
-        where t.flag = '0'
+        <if test="userId != 1">
+            inner join
+            (select tp.* from tb_sys_permis tp
+            where tp.owner_id = #{userId} and tp.flag = '2'
+            union
+            select tp.* from tb_sys_permis tp
+            inner join tb_sys_role tr on tp.owner_id = tr.id and tp.flag = '3'
+            inner join tb_sys_permis tur on tur.permis_id = tr.id and tur.flag = '1'
+            where tur.owner_id = #{userId}
+            union
+            select tp.* from tb_sys_permis tp
+            inner join tb_sys_dept tud on tp.owner_id = tud.id and tp.flag = '4'
+            inner join tb_sys_user tu on tud.id = tu.dept_id
+            where tu.id = #{userId})
+            tp on tp.permis_id = t.id
+        </if>
+        where t.flag = '0' and t.type = '0'
         order by id desc
     </select>
 

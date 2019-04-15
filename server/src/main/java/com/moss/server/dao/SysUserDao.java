@@ -8,7 +8,7 @@ public interface SysUserDao {
 
 	SysUser login(String account);
 
-	List<String> getUserPermis(Integer id);
+	List<String> getUserPermis(Integer userId);
 
 	int add(SysUser user);
 	int del(Integer id);

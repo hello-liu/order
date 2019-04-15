@@ -8,7 +8,7 @@ import java.util.List;
 public interface SysPermisDao {
 
 	List<SysMenu> getMenuAndFunc();
-	int delByOwner(Integer ownerId);
+	int delByOwner(HashMap map);
 	List<Integer> getByOwner(HashMap map);
 	int add(HashMap map);
 

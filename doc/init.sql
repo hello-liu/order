@@ -1,7 +1,9 @@
 
 -- 初始化管理员用户
-insert into tb_sys_user(nickname, account, pwd, create_time, flag)
-values ('admin', 'admin', '0S1Mf12lO02eHwZeOBOtdg==', now(), '0');
+insert into tb_sys_user(id,nickname, account, pwd, create_time, flag)
+values (1,'admin', 'admin', '0S1Mf12lO02eHwZeOBOtdg==', now(), '0');
+select nextval('tb_sys_user_id_seq');
+
 
 -- 初始化菜单
 truncate table tb_sys_menu;

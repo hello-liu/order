@@ -10,7 +10,25 @@
     </select>
 
     <select id="getUserPermis"  resultType="java.lang.String">
-      select index from tb_sys_menu where type = '1'
+        select t.index
+        from tb_sys_menu t
+        <if test="_parameter != 1">
+            inner join
+            (select tp.* from tb_sys_permis tp
+            where tp.owner_id = #{userId} and tp.flag = '2'
+            union
+            select tp.* from tb_sys_permis tp
+            inner join tb_sys_role tr on tp.owner_id = tr.id and tp.flag = '3'
+            inner join tb_sys_permis tur on tur.permis_id = tr.id and tur.flag = '1'
+            where tur.owner_id = #{userId}
+            union
+            select tp.* from tb_sys_permis tp
+            inner join tb_sys_dept tud on tp.owner_id = tud.id and tp.flag = '4'
+            inner join tb_sys_user tu on tud.id = tu.dept_id
+            where tu.id = #{userId})
+            tp on tp.permis_id = t.id
+        </if>
+        where t.flag = '0' and t.type = '1'
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">

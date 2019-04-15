@@ -58,14 +58,17 @@ public class SysPermisService {
 		String flag = json.getString("flag");
 		Integer ownerId = json.getInteger("ownerId");
 		JSONArray menus = json.getJSONArray("menus");
-		sysPermisDao.delByOwner(ownerId);
+
+		HashMap map = new HashMap();
+		map.put("ownerId",ownerId);
+		map.put("flag",flag);
+		//删除以前的权限
+		sysPermisDao.delByOwner(map);
+
 		for(int i = 0; i<menus.size(); i++){
 			Integer menu = menus.getInteger(i);
 			//保存每个menu
-			HashMap map = new HashMap();
-			map.put("ownerId",ownerId);
 			map.put("menuId",menu);
-			map.put("flag",flag);
 			sysPermisDao.add(map);
 
 		}

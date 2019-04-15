@@ -3,15 +3,15 @@
         <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
             <template v-for="item in getTtems">
-                <template v-if="item.subs">
+                <template v-if="item.children">
                     <el-submenu :index="item.index" :key="item.index">
                         <template slot="title">
                             <i :class="item.icon"></i><span slot="title">{{ item.title }}</span>
                         </template>
-                        <template v-for="subItem in item.subs">
-                            <el-submenu v-if="subItem.subs" :index="subItem.index" :key="subItem.index">
+                        <template v-for="subItem in item.children">
+                            <el-submenu v-if="subItem.children" :index="subItem.index" :key="subItem.index">
                                 <template  slot="title">{{ subItem.title }}</template>
-                                <el-menu-item v-for="(threeItem,i) in subItem.subs" :key="i" :index="threeItem.index">
+                                <el-menu-item v-for="(threeItem,i) in subItem.children" :key="i" :index="threeItem.index">
                                     {{ threeItem.title }}
                                 </el-menu-item>
                             </el-submenu>
@@ -37,50 +37,7 @@
         data() {
             return {
                 collapse: false,
-                itemsAdmin: [
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'dashboard',
-                        title: '系统首页'
-                    },
-                    {
-                        icon: 'el-icon-lx-sort',
-                        index: 'sysMng',
-                        title: '系统管理',
-                        subs: [
-                            {
-                                icon: "el-icon-lx-home",
-                                index: 'deptMng',
-                                title: '机构管理'
-                            },
-                            {
-                                icon: "el-icon-lx-people",
-                                index: 'userMng',
-                                title: '用户管理'
-                            },
-                            {
-                                icon: "el-icon-lx-sort",
-                                index: 'menuMng',
-                                title: '菜单管理'
-                            },
-                            {
-                                icon: "el-icon-lx-profile",
-                                index: 'permisMng',
-                                title: '权限管理'
-                            },
-                            {
-                                icon: "el-icon-lx-group",
-                                index: 'roleMng',
-                                title: '角色管理'
-                            },
-                            {
-                                icon: "el-icon-lx-calendar",
-                                index: 'logMng',
-                                title: '系统日志'
-                            }
-                        ]
-                    }
-                ]
+                menuTree: []
             }
         },
         computed:{
@@ -88,14 +45,7 @@
                 return this.$route.path.replace('/','');
             },
             getTtems(){
-                // let user = localStorage.getItem('user') ;
-                // let userData =JSON.parse(user);
-                // if(userData.account == 'admin'){
-                //     return this.itemsAdmin;
-                // }else{
-                //     return this.itemsUser;
-                // }
-                return this.itemsAdmin;
+                return this.menuTree;
 
             }
         },
@@ -104,6 +54,13 @@
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })
+
+            //设置用户的菜单
+            //获取用户的菜单
+            let menu = this.$util.getMenu()
+            let menuTree = this.$util.getTree(menu);
+            console.log(menuTree)
+            this.menuTree =  menuTree
         }
     }
 </script>

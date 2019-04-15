@@ -14,14 +14,16 @@
     </insert>
 
     <delete id="delByOwner">
-        delete from tb_sys_permis where owner_id = #{ownerId}
+        delete from tb_sys_permis where owner_id = #{ownerId} and flag = #{flag}
     </delete>
 
     <select id="getByOwner" resultType="java.lang.Integer">
         select permis_id from tb_sys_permis
         where owner_id = #{ownerId} and flag =  #{flag}
-          and permis_id in(select id from tb_sys_menu t
+        <if test="flag != 1">
+            and permis_id in(select id from tb_sys_menu t
             where not exists (select 1 from tb_sys_menu t2 where t.id = t2.pid))
+        </if>
     </select>
 
 

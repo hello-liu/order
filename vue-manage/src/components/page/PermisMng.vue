@@ -7,6 +7,42 @@
         </div>
         <div class="container">
             <el-tabs v-model="message">
+                <el-tab-pane label="用户角色" name="zero">
+                    <el-row :gutter="20">
+                        <el-col :span="8">
+                            <el-card shadow="hover" class="mgb20" >
+                                <div class="handle-box">
+                                    <el-input v-model="select_word_user_role" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+                                    <el-button type="primary" icon="search" @click="searchUserRole">搜索</el-button>
+                                </div>
+                                <el-table :data="userRoleData" border stripe
+                                          class="table"
+                                          ref="userRoleTable"
+                                          @row-click="onUserRole"
+                                          highlight-current-row>
+                                    <el-table-column prop="account" label="账号" >
+                                    </el-table-column>
+                                    <el-table-column prop="nickname" label="用户名" >
+                                    </el-table-column>
+                                </el-table>
+                            </el-card>
+                        </el-col>
+                        <el-col :span="16">
+                            <el-card shadow="hover">
+                                <el-button type="primary" icon="el-icon-check" @click="save('userRole')">保存</el-button>
+                                <el-table :data="roleData" border stripe
+                                          class="table"
+                                          ref="roleUserTable"
+                                          @selection-change="handleSelectionChange"
+                                          highlight-current-row>
+                                    <el-table-column type="selection" width="55" align="center"></el-table-column>
+                                    <el-table-column prop="name" label="角色名称" >
+                                    </el-table-column>
+                                </el-table>
+                            </el-card>
+                        </el-col>
+                    </el-row>
+                </el-tab-pane>
                 <el-tab-pane label="角色权限" name="first">
                     <el-row :gutter="20">
                         <el-col :span="8">
@@ -127,10 +163,14 @@
             return {
                 selectedRole: '',
                 selectedUser: '',
+                selectedRoleUser: '',
                 select_word: '',
-                message: 'first',
+                select_word_user_role: '',
+                message: 'zero',
                 roleData: [],
                 userData: [],
+                userRoleData: [],
+                multipleSelection: [],
                 menuDate: [],
                 cur_page: 1,
                 pageSize:10,
@@ -277,6 +317,15 @@
                         menus.push(nodes[i].id)
                     }
                     params.menus = menus
+                }else if(flag == 'userRole' ){
+                    params.flag = '1'//用户/角色
+                    params.ownerId = this.selectedRoleUser
+                    let menus = []
+                    console.log(this.multipleSelection)
+                    for(let i = 0; i<this.multipleSelection.length; i++){
+                        menus.push(this.multipleSelection[i].id)
+                    }
+                    params.menus = menus
                 }else{
                     return;
                 }
@@ -337,9 +386,57 @@
                         //失败，进行提示
                     }
                 })
-            }
+            },
+            searchUserRole(){
+                let params = {pageNo:this.cur_page,pageNum:this.pageSize};
+                if(this.select_word_user_role){
+                    params.nickname = this.select_word_user_role;
+                    params.account = this.select_word_user_role;
+                }else{
+                    this.$alert("请填写查询条件！", "错误！", {confirmButtonText: '确定',});
+                }
+                this.$http.post('sysUser.list', params, this).then(respose => {
+                    let data = respose.data
+                    if("ok" == data.code){
+                        //成功
+                        this.userRoleData = data.data.list;
+                    }else{
+                        //失败，进行提示
+                    }
+                })
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            onUserRole(row, column, event){
+                this.selectedRoleUser =  row.id
+                //获取角色的权限
+                let params = {}
+                params.flag = '1'
+                params.ownerId = this.selectedRoleUser
+                //清空选择的角色
+                this.$refs.roleUserTable.clearSelection()
+                this.$http.post('sysPermis.getByOwner', params, this).then(respose => {
+                    let data = respose.data
+                    if("ok" == data.code){
+                        //成功
+                        let selectedKeys = data.data
+                        this.roleData.forEach(item => {
+                            if(selectedKeys.indexOf(item.id) >-1){
+                                this.$refs.roleUserTable.toggleRowSelection(item,true)
+                            }
+                        });
+                    }else{
+                        //失败，进行提示
+                        this.$alert(data.msg+data.data, "错误！", {confirmButtonText: '确定',});
+                    }
+                })
+
+            },
 
         },
+
+
 
         computed: {
 
