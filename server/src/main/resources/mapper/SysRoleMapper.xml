@@ -23,6 +23,11 @@
     <select id="list" resultType="com.moss.server.model.SysRole">
         select id, name, flag, create_time, remark
         from tb_sys_role t
+        <where>
+            <if test="name != null">
+                t.name = #{name}
+            </if>
+        </where>
         order by id desc
     </select>
 
