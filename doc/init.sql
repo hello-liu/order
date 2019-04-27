@@ -5,11 +5,27 @@ values (1,'admin', 'admin', '0S1Mf12lO02eHwZeOBOtdg==', now(), '0');
 select nextval('tb_sys_user_id_seq');
 
 
--- 初始化菜单
+-- 初始化菜单 39
 truncate table tb_sys_menu;
 insert into tb_sys_menu(id,pid,icon,index,title,flag,type)
 values(1,null,'el-icon-lx-home','dashboard','系统首页','0','0');
 select nextval('tb_sys_menu_id_seq');
+insert into tb_sys_menu(id,pid,title,index,flag,type)
+values (35,1, '工单添加', 'order.add', '0','1');
+select nextval('tb_sys_menu_id_seq');
+insert into tb_sys_menu(id,pid,title,index,flag,type)
+values (36,1, '工单删除', 'order.del', '0','1');
+select nextval('tb_sys_menu_id_seq');
+insert into tb_sys_menu(id,pid,title,index,flag,type)
+values (37,1, '工单修改', 'order.update', '0','1');
+select nextval('tb_sys_menu_id_seq');
+insert into tb_sys_menu(id,pid,title,index,flag,type)
+values (38,1, '修改flag', 'order.updateFlag', '0','1');
+select nextval('tb_sys_menu_id_seq');
+insert into tb_sys_menu(id,pid,title,index,flag,type)
+values (39,1, '工单查询', 'order.list', '0', '1');
+select nextval('tb_sys_menu_id_seq');
+
 
 insert into tb_sys_menu(id,pid,icon,index,title,flag,type)
 values(2,null,'el-icon-lx-sort','sysMng','系统管理','0','0');

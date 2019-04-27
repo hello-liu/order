@@ -118,3 +118,18 @@ create table tb_sys_file(
   remark	varchar(255)
 );
 
+-- 工单系统
+
+drop table if exists tb_busi_order;
+create table tb_busi_order(
+  id	serial,
+  title	varchar (100),
+  content	text,
+  dept_id int,
+  role_id	int,
+  user_id	int,
+  create_user_id int,
+  flag	varchar (8), -- 0-为发送 1-已发送 2-已经处理
+  create_time	timestamp,
+  remark	varchar(255)
+);

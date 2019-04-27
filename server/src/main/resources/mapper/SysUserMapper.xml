@@ -72,6 +72,9 @@
             <if test="flag != null">
                 and t.flag = #{flag}
             </if>
+            <if test="deptId != null">
+                and t.dept_id = #{deptId}
+            </if>
         </where>
         <where>
             <if test="idnumber != null">

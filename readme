@@ -1,0 +1,94 @@
+1.目录说明
+	client -  微服务调用客户端实例
+		com.moss.client.micro - 远程微服务调用接口
+		com.moss.client.micro.imp - 熔断机制现实类
+	common - 公共包
+	doc - 文档，包含数据库说明等
+	eureka - 微服务注册中心
+	server - 微服务代码
+		common - 公共代码
+		config - 配置 fastJson、跨域请求、mq等
+		controller - 控制器，包含请求分发、权限认证等
+		dao - 数据库dao
+		model - 实体类
+		service - 业务处理类
+		util - 工具类
+		resources 
+			mapper - mybatis 配置文件
+			application.properties - 项目配置文件
+	vue-manage - 后台管理的前端
+
+
+2.使用说明
+
+	如果只使用单服务，只需要在server上进行后台开发、在vue-manage上进行前端开发
+	使用了redis和postgresql，请提前安装好
+
+	1.修改server下的application.properties配置
+		server.port=8000
+	2.修改数据库胚子
+		spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/order?allowMultiQueries=true
+		spring.datasource.username=order
+		spring.datasource.password=order
+	3.修改redis配置
+		spring.redis.host=127.0.0.1
+		spring.redis.port=6379
+		spring.redis.password=
+	4.点击启动，后台启动完成，如出现错误，请检查配置
+
+	5.初始化数据
+		执行doc文件下的create.sql 和 init.sql
+
+	6.启动前端
+		进入vue-manage 执行 mpn install 下载依赖包
+		执行mpn run dev 启动前端调试
+
+	7.在浏览器打开前端地址就可以看到界面
+		http://localhost:8080 
+
+3.开发案例
+	1.新建表
+		在doc的create.sql中添加新建表的脚本
+		drop table if exists tb_busi_order;
+		create table tb_busi_order(
+		  id	serial,
+		  title	varchar (100),
+		  content	text,
+		  dept_id int,
+		  user_id	int,
+		  create_user_id,
+		  flag	varchar (8),
+		  create_time	timestamp,
+		  remark	varchar(255)
+		);
+	2.更具数据库字段创建实体类
+		可以使用注解在返回前端的时候去掉字段，比如密码等敏感字段
+		@JSONField(serialize=false)//非序列化字段
+		public class Order {
+
+			private Integer id;
+			private String title;
+			private String content ;
+			private Integer deptId ;
+			private Integer userId ;
+			private Integer createUserId ;
+			private String flag ;
+			private Date createTime ;
+			private String remark ;
+
+		}
+	3.创建dao接口
+		public interface OrderDao {
+
+			int add(Order order);
+			int del(Integer id);
+			int update(Order order);
+			int updateFlag(Order order);
+			List<Order> list(Order order);
+
+		}
+
+
+
+
+

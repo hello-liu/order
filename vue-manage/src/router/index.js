@@ -49,6 +49,16 @@ export default new Router({
                         component: resolve => require(['../components/page/LogMng.vue'], resolve),
                     meta: { title: '系统日志' }
                 },
+                {
+                    path: '/404',
+                        component: resolve => require(['../components/page/404.vue'], resolve),
+                    meta: { title: '404' }
+                },
+                {
+                    path: '/403',
+                        component: resolve => require(['../components/page/403.vue'], resolve),
+                    meta: { title: '403' }
+                }
             ]
 
         },

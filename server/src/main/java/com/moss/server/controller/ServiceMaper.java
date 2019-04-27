@@ -27,6 +27,9 @@ public class ServiceMaper {
 	@Autowired
 	SysPermisService sysPermisService;
 
+	@Autowired
+	OrderService orderService;
+
 	public BackModel maper(JSONObject json ) throws Exception {
 		String method = json.getString("method");
 		switch(method){
@@ -61,10 +64,17 @@ public class ServiceMaper {
 			case "sysRole.update":return sysRoleService.update(json);
 			case "sysRole.list":return sysRoleService.list(json);
 
-
+			//权限
 			case "sysPermis.getMenuAndFunc":return sysPermisService.getMenuAndFunc(json);
 			case "sysPermis.save":return sysPermisService.save(json);
 			case "sysPermis.getByOwner":return sysPermisService.getByOwner(json);
+
+			//工单
+			case "order.add":return orderService.add(json);
+			case "order.del":return orderService.del(json);
+			case "order.update":return orderService.update(json);
+			case "order.updateFlag":return orderService.updateFlag(json);
+			case "order.list":return orderService.list(json);
 
 
 			default: return new BackModel("error","接口不存在");

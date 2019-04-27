@@ -44,6 +44,12 @@ var util = {
     // return 'admin';
   },
 
+  //获取用户名
+  getUserId:function(){
+    return this.getUser().id;
+    // return 'admin';
+  },
+
   getTree:function(list){
     var roots = [];
     for(var i = 0; i < list.length; i++){
@@ -60,10 +66,14 @@ var util = {
     return roots;
   },
   getChildren:function (root,list) {
+    if(!root.id){
+      return ;
+    }
     var children = [];
     for(var i = 0; i < list.length; i++){
       var node = list[i];
-      if(root.id == node.pid){
+
+      if(node.id && root.id == node.pid){
         this.getChildren(node,list)
         children.push(node);
       }

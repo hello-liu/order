@@ -3,18 +3,62 @@
 <mapper namespace="com.moss.server.dao.OrderDao" >
 
 
-
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
-      insert into tb_busi_order(no,customer_id,address_id,send_time,merchant_id,goods_id,worker_id,amount,
-        other,tip,cion,ticket,get_ticket,payway,invoice,money,flag,create_time,remark)
-      values (#{no}, #{customerId}, #{addressId}, #{sendTime}, #{merchantId}, #{goodsId}, #{workerId}, #{amount},
-        #{other}, #{tip}, #{cion}, #{ticket}, #{getTicket}, #{payway}, #{invoice}, #{money}, #{flag}, now(), #{remark})
+      insert into tb_busi_order (title, content, dept_id, role_id, user_id, create_user_id,
+        flag, create_time, remark)
+      values (#{title}, #{content}, #{deptId}, #{roleId}, #{userId}, #{createUserId},
+        #{flag}, now(), '' )
     </insert>
 
-    <update id="updateFlag">
-        update tb_busi_order
-        set flag = #{flag}
+    <delete id="del">
+        delete from tb_busi_order where id = #{id}
+    </delete>
+
+    <update id="update">
+        update tb_busi_order set
+          title = #{title},
+          content = #{content},
+          dept_id = #{deptId},
+          role_id = #{roleId},
+          user_id = #{userId}
         where id = #{id}
     </update>
+
+    <update id="updateFlag">
+        update tb_busi_order set
+          flag = #{flag}
+        where id = #{id}
+    </update>
+
+    <select id="list" resultType="com.moss.server.model.Order">
+        select t.id, t.title, t.content, t.dept_id, t.role_id,  t.user_id, t.create_user_id,
+          t.flag, t.create_time, t.remark,
+          td.name deptName, tu.nickname userName, tr.name roleName
+        from tb_busi_order t
+        left join tb_sys_dept td on t.dept_id = td.id
+        left join tb_sys_user tu on t.user_id = tu.id
+        left join tb_sys_role tr on t.role_id = tr.id
+        <where>
+            <if test="flag != null">
+                and t.flag = #{flag}
+            </if>
+            <if test="deptId != null">
+                and t.dept_id = #{deptId}
+            </if>
+            <if test="roleId != null">
+                and t.role_id = #{roleId}
+            </if>
+            <if test="userId != null">
+                and t.user_id = #{userId}
+            </if>
+            <if test="title != null">
+                and t.title = #{title}
+            </if>
+            <if test="createUserId != null">
+                and t.create_user_id = #{createUserId}
+            </if>
+        </where>
+        order by id desc
+    </select>
 
 </mapper>
