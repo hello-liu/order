@@ -87,6 +87,32 @@
 			List<Order> list(Order order);
 
 		}
+	4.创建mybatis mapper
+
+	5.创建service
+	    根据规范，所有的业务都写到servic里边
+
+	6.配置接口转发
+	    ServiceMaper类
+
+	    //工单
+        case "order.add":return orderService.add(json);
+        case "order.del":return orderService.del(json);
+        case "order.update":return orderService.update(json);
+        case "order.updateFlag":return orderService.updateFlag(json);
+        case "order.list":return orderService.list(json);
+
+    7.在数据库中配置权限
+        修改init.sql中添加权限并配置给相应用户（包括菜单和接口）
+        或者修改Permissions中忽略接口的权限检查
+
+    8.修改前端路由转发
+
+    9.添加前端页面
+
+    10.完成，嘿嘿
+
+
 
 
 
