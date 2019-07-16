@@ -23,8 +23,8 @@ import md5 from 'js-md5';
 //   })
 
 var http = {
-  // baseURL : 'http://localhost:8000/controller/api',
-  baseURL : '/controller/api',
+  baseURL : 'http://localhost:8000/controller/api',
+  // baseURL : '/controller/api',
 
   /** get 请求
      * @param  {接口地址} url
